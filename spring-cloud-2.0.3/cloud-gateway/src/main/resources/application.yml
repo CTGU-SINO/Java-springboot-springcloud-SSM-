@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+        - Elapsed=true
+      routes:
+        - id: service_customer
+          uri: lb://EUREKA-CONSUMER
+          order: 0
+          predicates:
+            - Path=/eureka-consumer/**
+          filters:
+            - StripPrefix=1
+            # -------
+            - name: RequestRateLimiter
+              args:
+                key-resolver: "#{@remoteAddrKeyResolver}"
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 5
+            # -------
+            - AddResponseHeader=X-Response-Default-Foo,Default-Bar
+            - name: Hystrix
+              args:
+                name: fallbackcmd
+                fallbackUri: forward:/fallback
+
+#      routes:
+#        - id: default_path_to_http
+#          uri: https://windmt.com
+#          order: 10000
+#          predicates:
+#            - Path=/**
+#          filters:
+#            - SetPath=/
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+server:
+  port: 10000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1200/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+

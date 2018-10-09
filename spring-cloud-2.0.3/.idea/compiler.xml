@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="api-gateway" />
+        <module name="cloud-gateway" />
+        <module name="config-client" />
+        <module name="config-server-git" />
+        <module name="eureka-consumer" />
+        <module name="eureka-consumer-feign" />
+        <module name="eureka-consumer-hystrix" />
+        <module name="eureka-consumer-ribbon" />
+        <module name="eureka-producer" />
+        <module name="eureka-server" />
+        <module name="hystrix-dashboard" />
+        <module name="spring-cloud-2.0.3" />
+        <module name="trace-a" />
+        <module name="trace-b" />
+        <module name="turbine" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

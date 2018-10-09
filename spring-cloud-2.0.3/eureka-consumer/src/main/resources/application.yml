@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: eureka-consumer
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1200/eureka/ # 指定 Eureka 注册中心的地址
+server:
+  port: 2000 # 分别为 2000、2001、2002

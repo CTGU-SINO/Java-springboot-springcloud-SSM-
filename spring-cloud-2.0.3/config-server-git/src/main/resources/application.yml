@@ -1,0 +1,41 @@
+#spring:
+#  application:
+#    name: config-server
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: http://git.oschina.net/didispace/config-repo-demo/ # 配置git仓库的地址
+##          search-paths: config-repo # git仓库地址下的相对地址，可以配置多个，用,分割。
+#server:
+#  port: 12000
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:1200/eureka/
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://git.oschina.net/didispace/config-repo-demo/
+#          search-paths: config-repo
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+server:
+  port: 12000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1200/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

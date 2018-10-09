@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: turbine
+server:
+  port: 10010
+management:
+  port: 10011
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1200/eureka/
+turbine:
+  app-config: eureka-consumer-hystrix
+  cluster-name-expression: new String("default")
+  combine-host-port: true

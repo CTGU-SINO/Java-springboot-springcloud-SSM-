@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+        scope 默认单例
+        singleton：生命周期内只创建一次
+        prototype：请求一次创建一次
+    -->
+    <bean id="helloWorld" class="com.ctgu.spring.beans.HelloWorld" scope="singleton">
+        <property name="name" value="CT"></property>
+    </bean>
+
+    <bean id="car1" class="com.ctgu.spring.beans.Car">
+        <constructor-arg value="Audi" index="0"></constructor-arg>
+        <constructor-arg value="Shanghai" index="1"></constructor-arg>
+        <constructor-arg value="300000" type="double"></constructor-arg>
+    </bean>
+
+    <bean id="car2" class="com.ctgu.spring.beans.Car">
+        <constructor-arg value="BMW" index="0"></constructor-arg>
+        <constructor-arg index="1">
+            <value><![CDATA[<Shanghai>]]></value>
+        </constructor-arg>
+        <constructor-arg type="int">
+            <value>240</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="person" class="com.ctgu.spring.beans.Person">
+        <property name="name" value="CT"></property>
+        <property name="age" value="20"></property>
+        <!--<property name="car" ref="car1"></property>-->
+        <!--<property name="car">
+            <ref bean="car2"></ref>
+        </property>-->
+
+        <property name="car">
+            <bean class="com.ctgu.spring.beans.Car">
+                <constructor-arg value="BENZ" index="0"></constructor-arg>
+                <constructor-arg value="Shanghai" index="1"></constructor-arg>
+                <constructor-arg value="400000" type="double"></constructor-arg>
+            </bean>
+        </property>
+        <property name="car.maxSpeed" value="250"></property>
+    </bean>
+
+    <bean id="person1" class="com.ctgu.spring.beans.Person">
+        <constructor-arg value="jack"></constructor-arg>
+        <constructor-arg value="30"></constructor-arg>
+        <!--<constructor-arg ref="car1"></constructor-arg>-->
+        <constructor-arg><null></null></constructor-arg>
+    </bean>
+
+    <bean id="person2" class="com.ctgu.spring.beans.Person">
+        <property name="name" value="tom"></property>
+        <property name="age" value="40"></property>
+        <property name="car" ref="car1"></property>
+        <property name="sons">
+            <list>
+                <ref bean="son1"></ref>
+                <ref bean="son2"></ref>
+                <ref bean="son3"></ref>
+                <bean class="com.ctgu.spring.beans.Son">
+                    <property name="name" value="private"></property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mother" class="com.ctgu.spring.beans.Mother">
+        <property name="name" value="susan"></property>
+        <property name="sons">
+            <map>
+                <entry key="aa" value-ref="son1"></entry>
+                <entry key="bb" value-ref="son2"></entry>
+                <entry key="cc" value-ref="son3"></entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="son1" class="com.ctgu.spring.beans.Son" p:name="son1" p:age="20"/>
+
+    <bean id="son2" parent="son1" p:name="son2"/>
+
+    <bean id="son3" parent="son1" p:name="son3"/>
+
+    <!-- depend-on -->
+    
+    <bean id="dataSource1" class="com.ctgu.spring.beans.DataSource1">
+        <property name="properties">
+            <props>
+                <prop key="user">root</prop>
+                <prop key="password">root</prop>
+                <prop key="jdbcUrl">jdbc:mysql://localhost:3306/spring_boot_mybatis</prop>
+                <prop key="driverClass">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <util:list id="sons">
+        <ref bean="son1"/>
+        <ref bean="son2"/>
+        <ref bean="son3"/>
+    </util:list>
+
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+        <!--<property name="user" value="root"/>
+        <property name="password" value="root"/>
+        <property name="jdbcUrl" >
+            <value><![CDATA[jdbc:mysql://localhost:3306/spring_boot_mybatis?useUnicode=true&characterEncoding=utf8&useSSL=false]]></value>
+        </property>
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>-->
+    </bean>
+
+</beans>
